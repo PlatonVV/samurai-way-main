@@ -1,6 +1,8 @@
 import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 import './App.css';
+import state from './redux/state';
+
 
 function App() {
 
@@ -8,7 +10,7 @@ function App() {
         message: string;
     }
 
-    const HelloMessage: React.FC<MessageType> =(props) => {
+    const HelloMessage: React.FC<MessageType> = (props) => {
         return (
             <>
                 <h1>{props.message}</h1>
@@ -26,8 +28,8 @@ function App() {
     return (
         <BrowserRouter>
             <div className="App">
-                <Route path={"/hello"} render={() => <HelloMessage message='HelloMessage'/> }/>
-                <Route path={"/bye"} render={() => <ByeMessage message='Bye-Bye!!'/>}/>
+                <Route path={'/hello'} render={() => <HelloMessage message="HelloMessage"/>}/>
+                <Route path={'/bye'} render={() => <ByeMessage message="Bye-Bye!!"/>}/>
             </div>
         </BrowserRouter>
     );
