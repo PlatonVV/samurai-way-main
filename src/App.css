@@ -10,21 +10,5 @@
   /*grid-gap: 10px;*/
 
 }
-.header{
-  grid-area: h;
-  background-color: grey;
-}
-.header img {
-  width: 47px;
-}
-.nav {
-  grid-area: n;
-  background-color: bisque;
-}
-.content {
-  grid-area: c;
- }
-.content img {
-  width: 991px;
-  height: 450px;
-}
+
+
