@@ -5,7 +5,7 @@ import {Post} from './Post/Post';
 export type postTextType = {
     messageText: string
 }
-const postText_1 = 'Hey, how are you?';
+const postText_1 = 'Test new branch dev!!!!!!!!!';
 const postText_2 = 'Yo, whats up?';
 const postText_3 = 'How do you do?';
 
