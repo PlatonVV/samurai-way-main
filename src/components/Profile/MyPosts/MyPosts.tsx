@@ -6,7 +6,7 @@ export type postTextType = {
     messageText: string
 }
 const postText_1 = 'Test new branch dev!!!!!!!!!';
-const postText_2 = 'Yo, whats up?';
+const postText_2 = 'Commit 2?';
 const postText_3 = 'How do you do?';
 
 export const MyPosts = () => {
