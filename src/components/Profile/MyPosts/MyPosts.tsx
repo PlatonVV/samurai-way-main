@@ -7,7 +7,7 @@ export type postTextType = {
 }
 const postText_1 = 'Test new branch dev!!!!!!!!!';
 const postText_2 = 'Commit 2?';
-const postText_3 = 'How do you do?';
+const postText_3 = 'Commit 3';
 
 export const MyPosts = () => {
     return (
