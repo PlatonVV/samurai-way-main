@@ -1,5 +1,3 @@
-# Hello Samurai! 
-
 - **antd** 
 - **axios** 
 - **classnames**
