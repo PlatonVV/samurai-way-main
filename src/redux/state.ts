@@ -32,7 +32,7 @@ let state: RootStateType = {
             {id: 1, message: 'Hi, how are you?', likesCount: 12},
             {id: 2, message: 'This is my first post', likesCount: 11},
             {id: 3, message: 'Yo Yo Yo Yo', likesCount: 1},
-            {id: 3, message: 'Bla bla bla ', likesCount: 7},
+            {id: 4, message: 'Bla bla bla ', likesCount: 7},
         ]
     },
     dialogsPage: {
