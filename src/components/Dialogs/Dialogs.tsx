@@ -37,7 +37,7 @@ export const Dialogs = () => {
                 <DialogItem id="1" name="Dimych"/>
                 <DialogItem id="2" name="Mark"/>
                 <DialogItem id="3" name="Mario"/>
-                <DialogItem id="4" name="Clemence"/>
+                <DialogItem id="4" name="Clemency"/>
                 <DialogItem id="5" name="Anton"/>
             </div>
             <div className={s.messages}>
