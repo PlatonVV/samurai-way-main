@@ -6,7 +6,7 @@ export type MessagePropsType = {
     message: string
 }
 
-export const Messages = (props: MessagePropsType) => {
+export const Messages: React.FC<MessagePropsType> = (props) => {
     return (
         <>
             <div className={s.dialog}>{props.message}</div>
