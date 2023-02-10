@@ -1,8 +1,8 @@
 import React from 'react';
 import s from './Post.module.css';
-import {postTextType} from '../MyPosts';
+import {PostPropsType,} from '../MyPosts';
 
-export const Post: React.FC<postTextType> = (props) => {
+export const Post: React.FC<PostPropsType> = (props) => {
     return (
         <>
             <div>
@@ -10,8 +10,9 @@ export const Post: React.FC<postTextType> = (props) => {
                     <img
                         src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/will-smith-unfinshed-andrew-read.jpg"
                         alt="Will Smith"/>
-                    {props.messageText}
-                    <div>like</div>
+                    {props.message}
+                    <div>{`${props.likesCount} like`}</div>
+                    {/*<div>like</div>*/}
                 </div>
             </div>
         </>
