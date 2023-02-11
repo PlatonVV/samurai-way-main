@@ -1,26 +1,26 @@
-type MessageType = {
+export type MessageType = {
     id: number
     message: string
 }
-type DialogsType = {
+export type DialogsType = {
     id: number
     name: string
 }
-type DialogsPageType = {
-    dialogs: Array<DialogsType>
-    messages: Array<MessageType>
-}
-type PostsType = {
+export type PostsType = {
     id: number
     message: string
     likesCount: number
 }
-type ProfilePageType = {
+export type DialogsPageType = {
+    dialogs: Array<DialogsType>
+    messages: Array<MessageType>
+}
+export type ProfilePageType = {
     posts: Array<PostsType>
 }
-type SidebarType = {}
+export type SidebarType = {}
 
-type RootStateType = {
+export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
     sidebar: SidebarType

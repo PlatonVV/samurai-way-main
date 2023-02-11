@@ -1,8 +1,8 @@
 import React from 'react';
 import s from './Post.module.css';
-import {PostPropsType,} from '../MyPosts';
+import {PostPropsType, PostType,} from '../MyPosts';
 
-export const Post: React.FC<PostPropsType> = (props) => {
+export const Post: React.FC<PostType> = (props) => {
     return (
         <>
             <div>
