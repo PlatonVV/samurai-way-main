@@ -11,7 +11,7 @@ export type PostPropsType = {
     posts: Array<PostType>
 }
 
-export const MyPosts: React.FC<PostPropsType> = (props) => {
+export const MyPosts = (props: PostPropsType) => {
     let postsElement = props.posts.map(p => <Post message={p.message} likesCount={p.likesCount} id={p.id}/>)
     return (
         <>
