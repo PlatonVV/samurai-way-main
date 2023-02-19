@@ -1,8 +1,13 @@
 import React from 'react';
 import s from './Post.module.css';
-import {PostPropsType, PostType,} from '../MyPosts';
 
-export const Post: React.FC<PostType> = (props) => {
+type PropsType = {
+    message: string
+    likesCount: number
+    id: string
+}
+
+export const Post: React.FC<PropsType> = (props) => {
     return (
         <>
             <div>

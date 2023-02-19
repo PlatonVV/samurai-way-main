@@ -1,59 +1,76 @@
-type MessageType = {
-    id: number
+import {v1} from 'uuid';
+
+export type MessageType = {
+    id: string
     message: string
 }
-type DialogsType = {
-    id: number
+export type DialogsType = {
+    id: string
     name: string
 }
-type DialogsPageType = {
-    dialogs: Array<DialogsType>
-    messages: Array<MessageType>
+export type DialogsPageType = {
+    dialogs: DialogsType[]
+    messages: MessageType[]
 }
-type PostsType = {
-    id: number
+export type PostsType = {
+    id: string
     message: string
     likesCount: number
 }
-type ProfilePageType = {
-    posts: Array<PostsType>
+export type ProfilePageType = {
+    posts: PostsType[]
 }
-type SidebarType = {}
-
-type RootStateType = {
+export type FriendsType = {
+    id: string
+    name: string
+}
+export type SidebarType = {
+    friends: FriendsType[]
+}
+export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
     sidebar: SidebarType
 }
 
-let state = {
+export const state: RootStateType = {
     profilePage: {
         posts: [
-            {id: 1, message: 'Hi, how are you?', likesCount: 12},
-            {id: 2, message: 'This is my first post', likesCount: 11},
-            {id: 3, message: 'Yo Yo Yo Yo', likesCount: 1},
-            {id: 4, message: 'Bla bla bla ', likesCount: 7},
+            {id: v1(), message: 'Hi, how are you?', likesCount: 12},
+            {id: v1(), message: 'This is my first post', likesCount: 11},
+            {id: v1(), message: 'Yo Yo Yo Yo', likesCount: 1},
+            {id: v1(), message: 'Bla bla bla ', likesCount: 7},
         ]
     },
     dialogsPage: {
         dialogs: [
-            {id: 1, name: 'Plato'},
-            {id: 2, name: 'Ivan'},
-            {id: 3, name: 'Igor'},
-            {id: 4, name: 'Nikita'},
-            {id: 5, name: 'Cris'},
-            {id: 6, name: 'Neo'},
+            {id: v1(), name: 'Plato'},
+            {id: v1(), name: 'Ivan'},
+            {id: v1(), name: 'Igor'},
+            {id: v1(), name: 'Nikita'},
+            {id: v1(), name: 'Cris'},
+            {id: v1(), name: 'Neo'},
         ],
         messages: [
-            {id: 1, message: 'Hi'},
-            {id: 2, message: 'How are you?'},
-            {id: 3, message: 'Whats up!'},
-            {id: 4, message: 'V-vendetta'},
-            {id: 5, message: 'YoYOYO'},
-            {id: 6, message: 'Carnaval jazz!'},
+            {id: v1(), message: 'Hi'},
+            {id: v1(), message: 'How are you?'},
+            {id: v1(), message: 'Whats up!'},
+            {id: v1(), message: 'V-vendetta'},
+            {id: v1(), message: 'YoYOYO'},
+            {id: v1(), message: 'Carnaval jazz!'},
         ]
     },
-    sidebar: {}
+    sidebar: {
+        friends: [
+            {id: v1(), name: 'Mario'},
+            {id: v1(), name: 'Leo'},
+            {id: v1(), name: "Julia"},
+        ]
+    }
 }
 
-export default state;
+
+
+
+
+
