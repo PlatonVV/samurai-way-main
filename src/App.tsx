@@ -8,11 +8,12 @@ import {Route} from 'react-router-dom';
 import {News} from './components/News/News';
 import {Settings} from './components/Settings/Settings';
 import {Music} from './components/Music/Music';
-import { RootStateType} from './redux/state';
+import {RootStateType} from './redux/state';
 export type PropsType = {
     state: RootStateType
-    addPostCallBack: (postMessage: string)=> void
+    addPostCallBack: ()=> void
     message: string
+    updateNewPostText: (newText: string)=> void
 }
 
 const App = (props: PropsType) => {
@@ -22,7 +23,7 @@ const App = (props: PropsType) => {
             <Navbar sidebar={props.state.sidebar}/>
             <div className="app-wrapper-content">
                 <Route path="/dialogs" render={() => <Dialogs dialogsPage={props.state.dialogsPage}/>}/>
-                <Route path="/profile" render={() => <Profile message={props.message} profilePage={props.state.profilePage} addPostCallBack={props.addPostCallBack}/>}/>
+                <Route path="/profile" render={() => <Profile message={props.message} profilePage={props.state.profilePage} addPostCallBack={props.addPostCallBack} updateNewPostText={props.updateNewPostText}/>}/>
 
                 <Route path="/news" component={News}/>
                 <Route path="/music" component={Music}/>
