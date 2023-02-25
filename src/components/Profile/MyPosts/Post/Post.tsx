@@ -8,7 +8,6 @@ type PropsType = {
 
 export const Post = (props: PropsType) => {
     return (
-
         <div>
             <div className={s.item}>
                 <img
