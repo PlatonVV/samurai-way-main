@@ -3,6 +3,7 @@ import s from './Dialogs.module.css'
 import {Messages} from './Messages/Messages';
 import {DialogsItem} from './DialogsItem/DialogsItem';
 import {DialogsPageType} from '../../redux/state';
+
 type PropsType = {
     dialogsPage: DialogsPageType
 }
@@ -18,6 +19,11 @@ export const Dialogs: React.FC<PropsType> = (props) => {
     const addMessage=()=>{
         alert(newMessagesElement.current?.value)
     }
+    // const addMessage = () => {
+    //     if (newMessagesElement) {
+    //         alert(newMessagesElement.current.value)
+    //     }
+    // }
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
