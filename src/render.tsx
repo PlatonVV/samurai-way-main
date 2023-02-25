@@ -7,7 +7,7 @@ import {addPost, RootStateType} from './redux/state'
 export const rerenderEntireTree = (state: RootStateType) => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state} addPostCallBack={addPost}/>
+            <App state={state} addPostCallBack={addPost} message={state.profilePage.newPostText}/>
         </BrowserRouter>, document.getElementById('root')
     );
 }

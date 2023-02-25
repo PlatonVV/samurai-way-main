@@ -6,6 +6,7 @@ import {PostsType} from '../../../redux/state';
 type PropsType = {
     posts: PostsType[]
     addPostCallBack: (postMessage: string) => void
+    newPostText: string
 
 }
 
@@ -20,11 +21,14 @@ export const MyPosts = (props: PropsType) => {
             newPostElement.current.value = ''
         }
     }
+    const onPostChangeHandler = ()=>{
+
+    }
     return (
         <>
             <div className={s.postsBlock}>
                 <div>My posts</div>
-                <textarea ref={newPostElement}></textarea>
+                <textarea ref={newPostElement} onChange={onPostChangeHandler} value={props.newPostText}/>
                 <button onClick={addPost}>Add post</button>
                 <div className={s.posts}>
                     {postsElements}

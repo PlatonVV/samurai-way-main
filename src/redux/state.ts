@@ -19,6 +19,7 @@ export type PostsType = {
     likesCount: number
 }
 export type ProfilePageType = {
+    newPostText: string
     posts: PostsType[]
 }
 export type FriendsType = {
@@ -36,6 +37,7 @@ export type RootStateType = {
 
 export const state: RootStateType = {
     profilePage: {
+        newPostText: 'It kamasutre',
         posts: [
             {id: v1(), message: 'Hi, how are you?', likesCount: 12},
             {id: v1(), message: 'This is my first post', likesCount: 11},

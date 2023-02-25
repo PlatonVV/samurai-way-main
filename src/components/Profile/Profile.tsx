@@ -7,6 +7,7 @@ import { ProfilePageType} from '../../redux/state';
 type PropsType = {
     profilePage: ProfilePageType
     addPostCallBack: (postMessage: string)=> void
+    message: string
 }
 
 export const Profile= (props: PropsType) => {
@@ -15,7 +16,7 @@ export const Profile= (props: PropsType) => {
             <div className={s.content}>
                 <ProfileInfo/>
                 <MyPosts
-                    posts={props.profilePage.posts} addPostCallBack={props.addPostCallBack}/>
+                    posts={props.profilePage.posts} addPostCallBack={props.addPostCallBack} newPostText={props.message}/>
             </div>
         </>
     )
