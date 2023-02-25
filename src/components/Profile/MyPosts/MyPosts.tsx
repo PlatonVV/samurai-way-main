@@ -5,6 +5,7 @@ import {PostsType} from '../../../redux/state';
 
 type PropsType = {
     posts: PostsType[]
+    addPostCallBack: (postMessage: string) => void
 
 }
 
@@ -13,8 +14,10 @@ export const MyPosts = (props: PropsType) => {
 
     let newPostElement = React.createRef<HTMLTextAreaElement>();
     const addPost = () => {
-        if(newPostElement.current) {
-        alert(newPostElement.current?.value);
+        debugger
+        if (newPostElement.current) {
+            props.addPostCallBack(newPostElement.current.value)
+            newPostElement.current.value = ''
         }
     }
     return (
