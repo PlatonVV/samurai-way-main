@@ -64,7 +64,7 @@ export const state: RootStateType = {
         friends: [
             {id: v1(), name: 'Mario'},
             {id: v1(), name: 'Leo'},
-            {id: v1(), name: "Julia"},
+            {id: v1(), name: 'Julia'},
         ]
     }
 }

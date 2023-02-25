@@ -1,23 +1,23 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import {Post} from './Post/Post';
+import {PostsType} from '../../../redux/state';
+type PropsType = {
+    posts: PostsType[]
+ }
 
-export type postTextType = {
-    messageText: string
-}
-const postText_1 = 'Test new branch dev!!!!!!!!!';
-const postText_2 = 'Commit 2?';
-const postText_3 = 'Commit 3';
+ export const MyPosts = (props:PropsType) => {
+     let postsElements = props.posts.map(p=> <Post message={p.message} likesCount ={p.likesCount} />);
 
-export const MyPosts = () => {
+    const addPost = ()=>{}
     return (
-        <><div className={s.posts}>
+        <><div className={s.postsBlock}>
             <div>My posts</div>
             <textarea></textarea>
-            <button>Add post</button>
-            <Post messageText={postText_1 }/>
-            <Post messageText={postText_2}/>
-            <Post messageText={postText_3}/>
+            <button onClick={addPost}>Add post</button>
+            <div className={s.posts}>
+                {postsElements}
+            </div>
         </div>
         </>
     )

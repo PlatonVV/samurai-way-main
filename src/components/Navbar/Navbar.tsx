@@ -1,10 +1,10 @@
 import React from 'react';
 import s from './Navbar.module.css';
 import {NavLink} from 'react-router-dom';
-import { RootStateType} from '../../redux/state';
+import { SidebarType} from '../../redux/state';
 
 type PropsType = {
-    state: RootStateType
+    sidebar: SidebarType
 }
 
 export const Navbar: React.FC<PropsType> = (props) => {
@@ -26,7 +26,7 @@ export const Navbar: React.FC<PropsType> = (props) => {
                 <div className={s.item}>
                     <NavLink to="/settings" activeClassName={s.activeLink}>Settings</NavLink>
                     <h1>Friends</h1>
-                    <div>{props.state.sidebar.friends.map(f => {
+                    <div>{props.sidebar.friends.map(f => {
                             return (
                                 <>
 

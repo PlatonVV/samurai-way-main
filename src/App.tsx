@@ -14,16 +14,15 @@ export type PropsType = {
     state: RootStateType
 }
 
-const App: React.FC<PropsType> = (props) => {
-
+const App = (props:PropsType) => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
-                <Navbar state={props.state}/>
+                <Navbar sidebar={props.state.sidebar}/>
                 <div className="app-wrapper-content">
-                    <Route path="/dialogs" render={() => <Dialogs state={props.state}/>}/>
-                    <Route path="/profile" render={() => <Profile state={props.state}/>}/>
+                    <Route path="/dialogs" render={() => <Dialogs dialogsPage={props.state.dialogsPage}/>}/>
+                    <Route path="/profile" render={() => <Profile profilePage={props.state.profilePage}/>}/>
 
                     <Route path="/news" component={News}/>
                     <Route path="/music" component={Music}/>

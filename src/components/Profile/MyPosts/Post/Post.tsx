@@ -4,22 +4,21 @@ import s from './Post.module.css';
 type PropsType = {
     message: string
     likesCount: number
-    id: string
 }
 
-export const Post: React.FC<PropsType> = (props) => {
+export const Post = (props: PropsType) => {
     return (
-        <>
-            <div>
-                <div className={s.item}>
-                    <img
-                        src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/will-smith-unfinshed-andrew-read.jpg"
-                        alt="Will Smith"/>
-                    {props.message}
-                    <div>{`${props.likesCount} like`}</div>
-                    {/*<div>like</div>*/}
-                </div>
+
+        <div>
+            <div className={s.item}>
+                <img
+                    src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/will-smith-unfinshed-andrew-read.jpg"
+                    alt="Will Smith"/>
+                {props.message}
+                <div>{`${props.likesCount} like`}</div>
+                {/*<div>like</div>*/}
             </div>
-        </>
+        </div>
+
     )
 }
