@@ -1,5 +1,4 @@
 import {v1} from 'uuid';
-import {rerenderEntireTree} from '../render'
 
 export type MessageType = {
     id: string
@@ -72,16 +71,23 @@ export const state: RootStateType = {
     }
 }
 
+let onChange = ()=>{
+}
+export const subscribe = (callBack: ()=> void) => {
+    onChange = callBack;
+}
 export const addPost = () => {
     let newPost: PostsType = {id: v1(), message: state.profilePage.newPostText, likesCount: 0}
     state.profilePage.posts.push(newPost);
     state.profilePage.newPostText = ''
-    rerenderEntireTree(state)
+    onChange()
 }
 export const updateNewPostText = (newText: string) => {
     state.profilePage.newPostText = newText
-    rerenderEntireTree(state)
+    onChange()
 }
+
+
 
 
 
