@@ -9,6 +9,8 @@ type PropsType = {
     newPostText: string
     updateNewPostText: (newText: string)=> void
 }
+
+
 export const MyPosts = (props: PropsType) => {
     let postsElements = props.posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>);
 
