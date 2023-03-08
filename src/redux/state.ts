@@ -1,13 +1,5 @@
 import {v1} from 'uuid';
 
-export type StoreType = {
-    _state: RootStateType
-    updateNewPostText: (newText: string)=>void
-    addPost: ()=>void
-    subscribe: (callBack: ()=> void) => void
-    _onChange: ()=> void
-    getState: ()=> RootStateType
-}
 export type MessageType = {
     id: string
     message: string
@@ -40,6 +32,24 @@ export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
     sidebar: SidebarType
+}
+export type AddPostActionType = {
+    type: "ADD-POST"
+    message: string
+}
+export type UpdateNewPostTextActionType = {
+    type: "UPDATE-NEW-POST-TEXT"
+    newText: string
+
+}
+export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType
+
+export type StoreType = {
+    _state: RootStateType
+    _onChange: ()=> void
+    subscribe: (callBack: ()=> void) => void
+    getState: ()=> RootStateType
+    dispatch: (action: AddPostActionType | UpdateNewPostTextActionType) => void
 }
 
 export const store: StoreType = {
@@ -79,25 +89,28 @@ export const store: StoreType = {
             ]
         }
     },
-    updateNewPostText (newText: string) {
-        this._state.profilePage.newPostText = newText
-        this._onChange()
-    },
-    addPost  ()  {
-        let newPost: PostsType = {id: v1(), message: this._state.profilePage.newPostText, likesCount: 0}
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.newPostText = ''
-        this._onChange()
-    },
-    subscribe (callBack)  {
-        this._onChange = callBack;
+    getState() {
+        return this._state
     },
     _onChange() {
         console.log('state changed')
     },
-    getState() {
-        return this._state
+    subscribe (callBack)  {
+        this._onChange = callBack;
+    },
+    dispatch(action){
+        if(action.type === "ADD-POST") {
+            let newPost: PostsType = {id: v1(), message: this._state.profilePage.newPostText, likesCount: 0}
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = ''
+            this._onChange()
+        }else if(action.type === "UPDATE-NEW-POST-TEXT") {
+            this._state.profilePage.newPostText = action.newText
+            this._onChange()
+        }
     }
+
+
 }
 
 
