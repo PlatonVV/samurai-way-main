@@ -33,23 +33,27 @@ export type RootStateType = {
     dialogsPage: DialogsPageType
     sidebar: SidebarType
 }
-export type AddPostActionType = {
-    type: "ADD-POST"
-    message: string
-}
-export type UpdateNewPostTextActionType = {
-    type: "UPDATE-NEW-POST-TEXT"
-    newText: string
 
-}
-export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType
-
+export type ActionsTypes = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>
 export type StoreType = {
     _state: RootStateType
-    _onChange: ()=> void
-    subscribe: (callBack: ()=> void) => void
-    getState: ()=> RootStateType
-    dispatch: (action: AddPostActionType | UpdateNewPostTextActionType) => void
+    _onChange: () => void
+    subscribe: (callBack: () => void) => void
+    getState: () => RootStateType
+    dispatch: (action: ActionsTypes) => void
+}
+
+export const addPostAC = (message: string) => {
+    return {
+        type: 'ADD-POST',
+        message,
+    } as const
+}
+export const updateNewPostTextAC = (newText: string) => {
+    return {
+        type: 'UPDATE-NEW-POST-TEXT',
+        newText: newText,
+    } as const
 }
 
 export const store: StoreType = {
@@ -60,8 +64,8 @@ export const store: StoreType = {
                 {id: v1(), message: 'Hi, how are you?', likesCount: 12},
                 {id: v1(), message: 'This is my first post', likesCount: 11},
                 {id: v1(), message: 'Yo Yo Yo Yo', likesCount: 1},
-                {id: v1(), message: 'Bla bla bla ', likesCount: 7}
-            ]
+                {id: v1(), message: 'Bla bla bla ', likesCount: 7},
+            ],
         },
         dialogsPage: {
             dialogs: [
@@ -70,7 +74,7 @@ export const store: StoreType = {
                 {id: v1(), name: 'Igor'},
                 {id: v1(), name: 'Nikita'},
                 {id: v1(), name: 'Cris'},
-                {id: v1(), name: 'Neo'}
+                {id: v1(), name: 'Neo'},
             ],
             messages: [
                 {id: v1(), message: 'Hi'},
@@ -78,16 +82,16 @@ export const store: StoreType = {
                 {id: v1(), message: 'Whats up!'},
                 {id: v1(), message: 'V-vendetta'},
                 {id: v1(), message: 'YoYOYO'},
-                {id: v1(), message: 'Carnaval jazz!'}
-            ]
+                {id: v1(), message: 'Carnaval jazz!'},
+            ],
         },
         sidebar: {
             friends: [
                 {id: v1(), name: 'Mario'},
                 {id: v1(), name: 'Leo'},
-                {id: v1(), name: 'Julia'}
-            ]
-        }
+                {id: v1(), name: 'Julia'},
+            ],
+        },
     },
     getState() {
         return this._state
@@ -95,20 +99,20 @@ export const store: StoreType = {
     _onChange() {
         console.log('state changed')
     },
-    subscribe (callBack)  {
+    subscribe(callBack) {
         this._onChange = callBack;
     },
-    dispatch(action){
-        if(action.type === "ADD-POST") {
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
             let newPost: PostsType = {id: v1(), message: this._state.profilePage.newPostText, likesCount: 0}
             this._state.profilePage.posts.push(newPost);
             this._state.profilePage.newPostText = ''
             this._onChange()
-        }else if(action.type === "UPDATE-NEW-POST-TEXT") {
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
             this._state.profilePage.newPostText = action.newText
             this._onChange()
         }
-    }
+    },
 
 
 }
