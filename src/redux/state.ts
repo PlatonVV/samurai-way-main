@@ -1,5 +1,6 @@
 import {v1} from 'uuid';
 
+
 export type MessageType = {
     id: string
     message: string
@@ -11,6 +12,7 @@ export type DialogsType = {
 export type DialogsPageType = {
     dialogs: DialogsType[]
     messages: MessageType[]
+    newMessageBody: string
 }
 export type PostsType = {
     id: string
@@ -34,7 +36,10 @@ export type RootStateType = {
     sidebar: SidebarType
 }
 
-export type ActionsTypes = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>
+export type ActionsTypes =
+    ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostTextAC>
+    | ReturnType<typeof sendMessageAC>
 export type StoreType = {
     _state: RootStateType
     _onChange: () => void
@@ -43,23 +48,13 @@ export type StoreType = {
     dispatch: (action: ActionsTypes) => void
 }
 
-export const addPostAC = (message: string) => {
-    return {
-        type: 'ADD-POST',
-        message,
-    } as const
-}
-export const updateNewPostTextAC = (newText: string) => {
-    return {
-        type: 'UPDATE-NEW-POST-TEXT',
-        newText: newText,
-    } as const
-}
-
+export const addPostAC = (message: string) => ({type: 'ADD-POST', message} as const)
+export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText} as const)
+export const sendMessageAC = (message: string) => ({type: 'SEND_MESSAGE', message} as const)
 export const store: StoreType = {
     _state: {
         profilePage: {
-            newPostText: '',
+            newPostText: 'It-kamasutra',
             posts: [
                 {id: v1(), message: 'Hi, how are you?', likesCount: 12},
                 {id: v1(), message: 'This is my first post', likesCount: 11},
@@ -84,6 +79,7 @@ export const store: StoreType = {
                 {id: v1(), message: 'YoYOYO'},
                 {id: v1(), message: 'Carnaval jazz!'},
             ],
+            newMessageBody: '',
         },
         sidebar: {
             friends: [
@@ -97,7 +93,6 @@ export const store: StoreType = {
         return this._state
     },
     _onChange() {
-        console.log('state changed')
     },
     subscribe(callBack) {
         this._onChange = callBack;
@@ -111,8 +106,19 @@ export const store: StoreType = {
         } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
             this._state.profilePage.newPostText = action.newText
             this._onChange()
+        } else if (action.type === 'SEND_MESSAGE') {
+            let body = action.message;
+            this._state.dialogsPage.newMessageBody = ''
+            this._state.dialogsPage.messages.push({id: v1(), message: body})
+            this._onChange()
         }
-    },
+            // } else if (action.type === 'ADD-POST-DIALOG') {
+            //     let dialogsPost: MessageType = {id: v1(), message: this._state.dialogsPage.newMessageBody}
+            //     this._state.dialogsPage.messages.push(dialogsPost);
+            //     this._state.dialogsPage.newDialogsPost = ''
+            //     this._onChange()
+
+            },
 
 
 }

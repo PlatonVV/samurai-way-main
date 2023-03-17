@@ -2,28 +2,26 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import {Messages} from './Messages/Messages';
 import {DialogsItem} from './DialogsItem/DialogsItem';
-import {DialogsPageType} from '../../redux/state';
+import {ActionsTypes, DialogsPageType, sendMessageAC} from '../../redux/state';
+import {InputButton} from '../Input/InputButton';
 
 type PropsType = {
     dialogsPage: DialogsPageType
+    dispatch: (action: ActionsTypes) => void
+
 }
 
-export const Dialogs: React.FC<PropsType> = (props) => {
+export const Dialogs: React.FC<PropsType> = ({dialogsPage, dispatch}) => {
 
-    let dialogsElements = props.dialogsPage.dialogs.map((dialog: { id: string; name: string; }) => <DialogsItem
+    let dialogsElements = dialogsPage.dialogs.map((dialog: { id: string; name: string; }) => <DialogsItem
         id={dialog.id} name={dialog.name}/>)
-    let messagesElements = props.dialogsPage.messages.map((message: { message: string; }) => <Messages
+    let messagesElements = dialogsPage.messages.map((message: { message: string; }) => <Messages
         message={message.message}/>)
 
-    const newMessagesElement = React.createRef<HTMLTextAreaElement>();
-    const addMessage=()=>{
-        alert(newMessagesElement.current?.value)
+    const addPost =(postText: string)=>{
+        dispatch(sendMessageAC(postText))
+        console.log(postText)
     }
-    // const addMessage = () => {
-    //     if (newMessagesElement) {
-    //         alert(newMessagesElement.current.value)
-    //     }
-    // }
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -31,9 +29,9 @@ export const Dialogs: React.FC<PropsType> = (props) => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <div>
-                    <textarea ref={newMessagesElement}></textarea>
-                    <button onClick={addMessage}>Add message</button>
+                <div> <InputButton name={'send'} callBack={addPost}/>
+                    {/*<textarea ref={newMessagesElement}></textarea>*/}
+                    {/*<button onClick={addMessage}>Add message</button>*/}
                 </div>
             </div>
         </div>
