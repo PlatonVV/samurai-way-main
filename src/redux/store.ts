@@ -1,60 +1,58 @@
 import {v1} from 'uuid';
+import {addPostAC, profileReducer} from '../reducers/profileReducer';
+import {dialogsReducer, sendMessageAC} from '../reducers/dialogsReducer';
+import { sidebarReducer } from '../reducers/sidebarReducer';
 
 
-export type MessageType = {
+ type MessageType = {
     id: string
     message: string
 }
-export type DialogsType = {
+ type DialogsType = {
     id: string
     name: string
 }
-export type DialogsPageType = {
+ type DialogsPageType = {
     dialogs: DialogsType[]
     messages: MessageType[]
     newMessageBody: string
 }
-export type PostsType = {
+type PostsType = {
     id: string
     message: string
     likesCount: number
 }
-export type ProfilePageType = {
+type ProfilePageType = {
     newPostText: string
     posts: PostsType[]
 }
-export type FriendsType = {
+type FriendsType = {
     id: string
     name: string
 }
-export type SidebarType = {
+type SidebarType = {
     friends: FriendsType[]
 }
-export type RootStateType = {
+type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
     sidebar: SidebarType
 }
 
-export type ActionsTypes =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostTextAC>
-    | ReturnType<typeof sendMessageAC>
-export type StoreType = {
+
+ type StoreType = {
     _state: RootStateType
     _onChange: () => void
     subscribe: (callBack: () => void) => void
     getState: () => RootStateType
-    dispatch: (action: ActionsTypes) => void
+    dispatch: (action: ActionsType) => void
 }
+ type ActionsType = ReturnType<typeof addPostAC> | ReturnType<typeof sendMessageAC>
 
-export const addPostAC = (message: string) => ({type: 'ADD-POST', message} as const)
-export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText} as const)
-export const sendMessageAC = (message: string) => ({type: 'SEND_MESSAGE', message} as const)
-export const store: StoreType = {
+ const store: StoreType = {
     _state: {
         profilePage: {
-            newPostText: 'It-kamasutra',
+            newPostText: '',
             posts: [
                 {id: v1(), message: 'Hi, how are you?', likesCount: 12},
                 {id: v1(), message: 'This is my first post', likesCount: 11},
@@ -98,30 +96,13 @@ export const store: StoreType = {
         this._onChange = callBack;
     },
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newPost: PostsType = {id: v1(), message: this._state.profilePage.newPostText, likesCount: 0}
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = ''
-            this._onChange()
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.newPostText = action.newText
-            this._onChange()
-        } else if (action.type === 'SEND_MESSAGE') {
-            let body = action.message;
-            this._state.dialogsPage.newMessageBody = ''
-            this._state.dialogsPage.messages.push({id: v1(), message: body})
-            this._onChange()
-        }
-            // } else if (action.type === 'ADD-POST-DIALOG') {
-            //     let dialogsPost: MessageType = {id: v1(), message: this._state.dialogsPage.newMessageBody}
-            //     this._state.dialogsPage.messages.push(dialogsPost);
-            //     this._state.dialogsPage.newDialogsPost = ''
-            //     this._onChange()
-
-            },
-
-
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action)
+        this._onChange()
+    }
 }
+
 
 
 
