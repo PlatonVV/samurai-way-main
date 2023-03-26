@@ -1,14 +1,14 @@
 import React from 'react';
 import s from './Navbar.module.css';
 import {NavLink} from 'react-router-dom';
-import {SidebarType} from '../../generalTypes/GeneralTypes';
+import {useSelector} from 'react-redux';
+import {AppRootStateType} from '../../redux/reduxStore';
+import {FriendsType} from '../../generalTypes/GeneralTypes';
 
-type PropsType = {
-    sidebar: SidebarType
-}
 
-export const Navbar: React.FC<PropsType> = (props) => {
-    const {sidebar, ...otherProps} = props
+export const Navbar = () => {
+    const friends = useSelector<AppRootStateType, Array<FriendsType>>(state => state.sidebarReducer.friends)
+
     return (
         <>
             <nav className={s.nav}>
@@ -27,16 +27,15 @@ export const Navbar: React.FC<PropsType> = (props) => {
                 <div className={s.item}>
                     <NavLink to="/settings" activeClassName={s.activeLink}>Settings</NavLink>
                     <h1>Friends</h1>
-                    <div>{sidebar.friends.map(f => {
+                    <div>{friends.map(f => {
                             return (
                                 <>
-
-                                    <ul>
+                                    <ul key={f.id}>
                                         <li>{f.name}</li>
                                     </ul>
                                 </>
                             )
-                        }
+                        },
                     )}
                     </div>
 

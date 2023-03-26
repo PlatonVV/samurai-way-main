@@ -1,18 +1,6 @@
-import { sendMessageAC} from '../reducers/dialogsReducer';
+import {sendMessageAC} from '../reducers/dialogsReducer';
 import {addPostAC} from '../reducers/profileReducer';
 
-export type StoreType = {
-    _state: RootStateType
-    _onChange: () => void
-    subscribe: (callBack: () => void) => void
-    getState: () => RootStateType
-    dispatch: (action: ActionsType) => void
-}
-export type RootStateType = {
-    profilePage: ProfilePageType
-    dialogsPage: DialogsPageType
-    sidebar: SidebarType
-}
 export type PostsType = {
     id: string
     message: string
