@@ -3,14 +3,13 @@ import s from './Dialogs.module.css'
 import {Messages} from './Messages/Messages';
 import {DialogsItem} from './DialogsItem/DialogsItem';
 import {AddItemForm} from '../AddItemForm/AddItemForm';
-import {sendMessageAC} from '../../reducers/dialogsReducer';
-import {DialogsPageType} from '../../generalTypes/GeneralTypes';
+import {initialStateDialogsReducerType, sendMessageAC} from '../../reducers/dialogsReducer';
 import {AppRootStateType} from '../../redux/reduxStore';
 import {useDispatch, useSelector} from 'react-redux';
 
 
 export const Dialogs = () => {
-    const dialogsPage = useSelector<AppRootStateType, DialogsPageType>(state => state.dialogsPage)
+    const dialogsPage = useSelector<AppRootStateType, initialStateDialogsReducerType>(state => state.dialogsPage)
     const dispatch = useDispatch()
 
     let dialogsElements = dialogsPage.dialogs.map((d: { id: string; name: string; }) =>
@@ -28,7 +27,8 @@ export const Dialogs = () => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <div><AddItemForm name={'send'} addItem={addPost}/>
+                <div>
+                    <AddItemForm name={'send'} addItem={addPost}/>
                 </div>
             </div>
         </div>

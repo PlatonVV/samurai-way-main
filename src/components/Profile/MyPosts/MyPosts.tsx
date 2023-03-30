@@ -2,9 +2,8 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import {Post} from './Post/Post';
 import {AddItemForm} from '../../AddItemForm/AddItemForm';
-import {addPostAC} from '../../../reducers/profileReducer';
+import {addPostAC, PostsType} from '../../../reducers/profileReducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {PostsType} from '../../../generalTypes/GeneralTypes';
 import {AppRootStateType} from '../../../redux/reduxStore';
 
 

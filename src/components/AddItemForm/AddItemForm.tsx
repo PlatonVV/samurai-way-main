@@ -25,8 +25,12 @@ export const AddItemForm: React.FC<PropsType> = ({name, addItem}) => {
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.key === 'Enter') {
-            addItem(title);
-            setTitle('')
+            if(title.trim() === '') {
+                setError('Title is required')
+            } else {
+                addItem(title);
+                setTitle('')
+            }
         }
     };
     const buttonSettings = {

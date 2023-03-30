@@ -3,7 +3,7 @@ import s from './Navbar.module.css';
 import {NavLink} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {AppRootStateType} from '../../redux/reduxStore';
-import {FriendsType} from '../../generalTypes/GeneralTypes';
+import {FriendsType} from '../../reducers/sidebarReducer';
 
 
 export const Sidebar = () => {
@@ -29,6 +29,9 @@ export const Sidebar = () => {
                 </div>
                 <div className={s.item}>
                     <NavLink to="/music" activeClassName={s.activeLink}>Music</NavLink>
+                </div>
+                <div className={s.item}>
+                    <NavLink to="/users" activeClassName={s.activeLink}>Users</NavLink>
                 </div>
                 <div className={s.item}>
                     <NavLink to="/settings" activeClassName={s.activeLink}>Settings</NavLink>

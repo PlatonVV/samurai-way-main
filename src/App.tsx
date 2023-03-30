@@ -8,6 +8,7 @@ import {News} from './components/News/News';
 import {Settings} from './components/Settings/Settings';
 import {Music} from './components/Music/Music';
 import {Profile} from './components/Profile/Profile';
+import {Users} from './components/Users/Users';
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
             <div className="app-wrapper-content">
                 <Route path="/dialogs" render={() => <Dialogs />}/>
                 <Route path="/profile" render={() => <Profile />}/>
+                <Route path='/users' render={ ()=> <Users/>} />
                 <Route path="/news" component={News}/>
                 <Route path="/music" component={Music}/>
                 <Route path="/settings" component={Settings}/>
