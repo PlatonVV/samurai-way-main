@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {Header} from './components/Header/Header';
-import {Navbar} from './components/Navbar/Navbar';
+import {Sidebar} from './components/Navbar/Sidebar';
 import {Dialogs} from './components/Dialogs/Dialogs';
 import {Route} from 'react-router-dom';
 import {News} from './components/News/News';
@@ -14,7 +14,7 @@ const App = () => {
     return (
         <div className="app-wrapper">
             <Header/>
-            <Navbar />
+            <Sidebar />
             <div className="app-wrapper-content">
                 <Route path="/dialogs" render={() => <Dialogs />}/>
                 <Route path="/profile" render={() => <Profile />}/>

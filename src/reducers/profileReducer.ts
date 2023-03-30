@@ -1,10 +1,12 @@
 import {v1} from 'uuid';
-import {ActionsType, PostsType, ProfilePageType} from '../generalTypes/GeneralTypes';
+import {ProfilePageType} from '../generalTypes/GeneralTypes';
+import {sendMessageAC} from './dialogsReducer';
 
+export type AddPostActionType = ReturnType<typeof addPostAC>
+ type ActionsType = AddPostActionType | ReturnType<typeof sendMessageAC>
 
 const initialState: ProfilePageType = {
-    newPostText: '',
-    posts: [
+    ['posts']: [
         {id: v1(), message: 'Hi, how are you?', likesCount: 12},
         {id: v1(), message: 'This is my first post', likesCount: 11},
         {id: v1(), message: 'Yo Yo Yo Yo', likesCount: 1},
@@ -15,10 +17,7 @@ const initialState: ProfilePageType = {
 export const profileReducer = (state = initialState, action: ActionsType) => {
     switch (action.type) {
         case 'ADD-POST': {
-            let newPost: PostsType = {id: v1(), message: action.payload.message, likesCount: 0}
-            state.posts.push(newPost);
-            state.newPostText = ''
-            return state
+            return {...state, ['posts']: [ {id: v1(), message: action.payload.message, likesCount: 7}, ...state['posts']] }
         }
         default:
             return state

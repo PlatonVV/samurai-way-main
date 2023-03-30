@@ -6,9 +6,15 @@ import {AppRootStateType} from '../../redux/reduxStore';
 import {FriendsType} from '../../generalTypes/GeneralTypes';
 
 
-export const Navbar = () => {
-    const friends = useSelector<AppRootStateType, Array<FriendsType>>(state => state.sidebarReducer.friends)
-
+export const Sidebar = () => {
+    const friends = useSelector<AppRootStateType, Array<FriendsType>>(state => state.sidebar.friends)
+    let friendElements = friends.map(f => {
+        return (
+            <ul key={f.id}>
+                <li>{f.name}</li>
+            </ul>
+        )
+    })
     return (
         <>
             <nav className={s.nav}>
@@ -27,16 +33,8 @@ export const Navbar = () => {
                 <div className={s.item}>
                     <NavLink to="/settings" activeClassName={s.activeLink}>Settings</NavLink>
                     <h1>Friends</h1>
-                    <div>{friends.map(f => {
-                            return (
-                                <>
-                                    <ul key={f.id}>
-                                        <li>{f.name}</li>
-                                    </ul>
-                                </>
-                            )
-                        },
-                    )}
+                    <div>
+                        {friendElements}
                     </div>
 
                 </div>

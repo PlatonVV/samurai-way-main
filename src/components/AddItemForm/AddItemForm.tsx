@@ -7,29 +7,26 @@ type PropsType = {
     addItem: (title: string) => void;
 };
 
-export const AddItemForm: React.FC<PropsType> = ({
-                                                     name,
-                                                     addItem,
-                                                 }) => {
+export const AddItemForm: React.FC<PropsType> = ({name, addItem}) => {
+
     const [title, setTitle] = useState('');
     const [error, setError] = useState<string | null>(null);
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value);
     };
-
     const onClickButtonHandler = () => {
-        let newTitle = title.trim()
-        if (newTitle !== '') {
+        if (title.trim() !== '') {
             addItem(title);
             setTitle('')
         } else {
-            setError('Text is required')
+            setError('Title is required')
         }
     };
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.key === 'Enter') {
             addItem(title);
+            setTitle('')
         }
     };
     const buttonSettings = {

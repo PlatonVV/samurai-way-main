@@ -4,9 +4,9 @@ import {sidebarReducer} from '../reducers/sidebarReducer';
 import {profileReducer} from '../reducers/profileReducer';
 
 const rootReducer = combineReducers({
-    profileReducer,
-    dialogsReducer,
-    sidebarReducer
+    profilePage : profileReducer,
+    dialogsPage: dialogsReducer,
+    sidebar: sidebarReducer
 })
 
 export const store = createStore(rootReducer)

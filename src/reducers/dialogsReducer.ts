@@ -1,10 +1,12 @@
 import {v1} from 'uuid';
-import {ActionsType, DialogsPageType} from '../generalTypes/GeneralTypes';
+import {DialogsPageType} from '../generalTypes/GeneralTypes';
+import {AddPostActionType} from './profileReducer';
 
-
+export type SendMessageActionType = ReturnType<typeof sendMessageAC>
+type ActionsType = AddPostActionType | SendMessageActionType
 
 const initialState: DialogsPageType = {
-    dialogs: [
+    ['dialogs']: [
         {id: v1(), name: 'Plato'},
         {id: v1(), name: 'Ivan'},
         {id: v1(), name: 'Igor'},
@@ -12,7 +14,7 @@ const initialState: DialogsPageType = {
         {id: v1(), name: 'Cris'},
         {id: v1(), name: 'Neo'},
     ],
-    messages: [
+    ['messages']: [
         {id: v1(), message: 'Hi'},
         {id: v1(), message: 'How are you?'},
         {id: v1(), message: 'Whats up!'},
@@ -20,16 +22,15 @@ const initialState: DialogsPageType = {
         {id: v1(), message: 'YoYOYO'},
         {id: v1(), message: 'Carnaval jazz!'},
     ],
-    newMessageBody: '',
 }
 
-export const dialogsReducer = (state=initialState, action: ActionsType) => {
+export const dialogsReducer = (state = initialState, action: ActionsType) => {
     switch (action.type) {
         case 'SEND-MESSAGE': {
-            state.newMessageBody = ''
-            state.messages.push({id: v1(), message: action.payload.message})
+            return {...state, ['messages']: [{id: v1(), message: action.payload.message}, ...state['messages']]}
+        }
+        default:
             return state
-        } default: return state
     }
 }
 

@@ -10,16 +10,15 @@ import {useDispatch, useSelector} from 'react-redux';
 
 
 export const Dialogs = () => {
-    const dialogsPage = useSelector<AppRootStateType, DialogsPageType>(state=> state.dialogsReducer)
-    // const messages = useSelector<AppRootStateType, MessageType[]>(state=> state.dialogsReducer.messages)
-     const dispatch = useDispatch()
+    const dialogsPage = useSelector<AppRootStateType, DialogsPageType>(state => state.dialogsPage)
+    const dispatch = useDispatch()
 
-    let dialogsElements = dialogsPage.dialogs.map((d: { id: string; name: string; }) => <DialogsItem key={d.id}
-        id={d.id} name={d.name}/>)
-    let messagesElements = dialogsPage.messages.map((m: { message: string; }) => <Messages
-        message={m.message}/>)
+    let dialogsElements = dialogsPage.dialogs.map((d: { id: string; name: string; }) =>
+        <DialogsItem key={d.id} id={d.id} name={d.name}/>)
+    let messagesElements = dialogsPage.messages.map((m: { id: string; message: string; }) =>
+        <Messages key={m.id} message={m.message}/>)
 
-    const addPost =(postText: string)=>{
+    const addPost = (postText: string) => {
         dispatch(sendMessageAC(postText))
     }
     return (
@@ -29,7 +28,7 @@ export const Dialogs = () => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <div> <AddItemForm name={'send'} addItem={addPost}/>
+                <div><AddItemForm name={'send'} addItem={addPost}/>
                 </div>
             </div>
         </div>

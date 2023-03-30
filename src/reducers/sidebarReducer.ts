@@ -1,10 +1,10 @@
 import {v1} from 'uuid';
-import {ActionsType, SidebarType} from '../generalTypes/GeneralTypes';
+import {SidebarType} from '../generalTypes/GeneralTypes';
 
-
+type ActionsType = ''
 
 const initialState: SidebarType = {
-   friends: [
+   ['friends']: [
       {id: v1(), name: 'Mario'},
       {id: v1(), name: 'Leo'},
       {id: v1(), name: 'Julia'},

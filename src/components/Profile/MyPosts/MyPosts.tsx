@@ -9,10 +9,10 @@ import {AppRootStateType} from '../../../redux/reduxStore';
 
 
 export const MyPosts = () => {
-    const posts = useSelector<AppRootStateType, PostsType[]>(state => state.profileReducer.posts);
+    const posts = useSelector<AppRootStateType, PostsType[]>(state => state.profilePage.posts);
     const dispatch = useDispatch()
 
-    let postsElements = posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>);
+    let postsElements = posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
 
     const addPost = (title: string) => {
         dispatch(addPostAC(title))
