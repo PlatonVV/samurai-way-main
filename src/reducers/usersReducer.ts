@@ -2,9 +2,11 @@ import {v1} from 'uuid';
 
 export type UsersType = {
     id: string
+    photoUrl: string
     followed: boolean
-    fullName: string
+    name: string
     status: string
+    photos: any
     location: {
         country: string
         city: string
@@ -14,35 +16,33 @@ export type initialStateUsersReducerType = typeof initialState
 
 export type FollowedActionType = ReturnType<typeof followAC>
 export type unFollowedActionType = ReturnType<typeof unFollowAC>
-type ActionsType = FollowedActionType | unFollowedActionType
+export type setUsersActionType = ReturnType<typeof setUsersAC>
+
+type ActionsType = FollowedActionType | unFollowedActionType | setUsersActionType
 const initialState = {
-    users: [
-        {
-            id: v1(),
-            followed: true,
-            fullName: 'Platon Volodin',
-            status: 'Bla bla car',
-            location: {country: 'US', city: 'NewYork'},
-        },
-        {
-            id: v1(),
-            followed: false,
-            fullName: 'Natalia Malynych',
-            status: 'I\'m pregnant',
-            country: 'Ukraine',
-            city: 'Lvov',
-        },
-        {id: v1(), followed: false, fullName: 'Illay Avun', status: 'Its on', country: 'Russia', city: 'Moscow'},
-    ] as Array<UsersType>,
+    users: [] as Array<UsersType>,
 }
 
 export const usersReducer = (state: initialStateUsersReducerType = initialState, action: ActionsType): initialStateUsersReducerType => {
     switch (action.type) {
         case 'FOLLOWED': {
-            return {...state, users: state.users.map(u => u.id === action.payload.userId ? {...u, followed: action.payload.follow } : u)}
+            return {
+                ...state,
+                users: state.users.map(u => u.id === action.payload.userId
+                    ? {...u, followed: action.payload.follow}
+                    : u),
+            }
         }
         case 'UNFOLLOWED': {
-            return {...state, users: state.users.map(u=> u.id === action.payload.userId ? {...u, followed: action.payload.unFollow} : u)}
+            return {
+                ...state,
+                users: state.users.map(u => u.id === action.payload.userId
+                    ? {...u, followed: action.payload.unFollow}
+                    : u),
+            }
+        }
+        case 'SET_USERS': {
+            return {...state, users: [...state.users, ...action.payload.users]}
         }
         default:
             return state
@@ -54,10 +54,16 @@ export const followAC = (userId: string, follow: boolean) => {
         payload: {userId, follow},
     } as const
 }
-export const unFollowAC = (userId: string,unFollow: boolean) => {
+export const unFollowAC = (userId: string, unFollow: boolean) => {
     return {
         type: 'UNFOLLOWED',
-        payload: {userId,unFollow},
+        payload: {userId, unFollow},
+    } as const
+}
+export const setUsersAC = (users: UsersType[]) => {
+    return {
+        type: 'SET_USERS',
+        payload: {users},
     } as const
 }
 
