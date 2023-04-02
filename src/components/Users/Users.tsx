@@ -3,7 +3,6 @@ import {AppRootStateType} from '../../redux/reduxStore';
 import {useDispatch, useSelector} from 'react-redux';
 import {followAC, setUsersAC, unFollowAC, UsersType} from '../../reducers/usersReducer';
 import styles from './Users.module.css'
-import {v1} from 'uuid';
 import axios from 'axios';
 import userPhoto from '../../assets/images/userPhoto.png'
 
