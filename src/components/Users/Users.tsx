@@ -1,50 +1,96 @@
-import React from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {AppRootStateType} from '../../redux/reduxStore';
 import {useDispatch, useSelector} from 'react-redux';
-import {followAC, setUsersAC, unFollowAC, UsersType} from '../../reducers/usersReducer';
+import {
+    followAC,
+    initialStateUsersReducerType,
+    setCurrentPageAC,
+    setIsFetchingAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    unFollowAC,
+} from '../../reducers/usersReducer';
 import styles from './Users.module.css'
 import axios from 'axios';
 import userPhoto from '../../assets/images/userPhoto.png'
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import {Preloader} from '../common/Preloader/Preloader';
+import {NavLink} from 'react-router-dom';
 
-export const Users = () => {
-    const users = useSelector<AppRootStateType, UsersType[]>(state => state.usersPage.users)
-
+export const Users = memo(() => {
+    const usersPage = useSelector<AppRootStateType, initialStateUsersReducerType>(state => state.usersPage)
     const dispatch = useDispatch()
-    if (users.length === 0) {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-            dispatch(setUsersAC(response.data.items));
-        })
-    }
 
-    const onClickUnFollowHandler = (userId: string) => {
+    useEffect(() => {
+        dispatch(setIsFetchingAC(true))
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${usersPage.currentPage}&count=${usersPage.pageSize}`).then(response => {
+            dispatch(setUsersAC(response.data.items));
+            dispatch(setIsFetchingAC(false))
+            dispatch(setTotalUsersCountAC(response.data.totalCount))
+        })
+    }, [])
+    const onClickCurrentPageHandler = useCallback((currentPage: number) => {
+        dispatch(setCurrentPageAC(currentPage))
+        dispatch(setIsFetchingAC(true))
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${usersPage.pageSize}`).then(response => {
+            dispatch(setUsersAC(response.data.items));
+            dispatch(setIsFetchingAC(false))
+        })
+    }, [dispatch])
+
+    const onClickUnFollowHandler = useCallback((userId: string) => {
         dispatch(followAC(userId, false))
-    }
-    const onClickFollowHandler = (userId: string) => {
+    }, [dispatch])
+    const onClickFollowHandler = useCallback((userId: string) => {
         dispatch(unFollowAC(userId, true))
+    }, [dispatch])
+
+
+    let pagesCount = Math.ceil(usersPage.totalUsersCount / usersPage.pageSize - 4723)
+    let pages = []
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
     }
-    return (
-        <div>
-            {users.map(u =>
-                <div key={u.id}>
+    const mapUsers = usersPage.users.map(u =>
+        <div key={u.id}>
                     <span>
                         <div>
-                            <img src={u.photos.small !== null ? u.photos.small : userPhoto} className={styles.userPhoto} alt="avatar"/>
+                            <NavLink to={'/profile/' + u.id}><img src={u.photos.small !== null ? u.photos.small : userPhoto}
+                                          className={styles.userPhoto}
+                                          alt="avatar"/></NavLink>
                         </div>
                         <div>{u.followed
-                            ? <button onClick={() => onClickUnFollowHandler(u.id)}>Unfollow</button>
-                            : <button onClick={() => onClickFollowHandler(u.id)}>Follow</button>}
+                            ? <Button onClick={() => onClickUnFollowHandler(u.id)} variant="contained"
+                                      href="#contained-buttons">Unfollow</Button>
+                            : <Button onClick={() => onClickFollowHandler(u.id)} variant="contained"
+                                      href="#contained-buttons">Follow</Button>}
                          </div>
                     </span>
-                    <span>
+            <span>
                             <div>{u.name}</div>
                             <div>{u.status}</div>
                         </span>
-                    <span>
+            <span>
                              <div>{'u.location.country'}</div>
                              <div>{'u.location.city'}</div>
                          </span>
-                </div>,
-            )}
+        </div>)
+    const mapPages = pages.map(p => {
+        return <ButtonGroup key={p} variant={usersPage.currentPage === p ? 'contained' : 'text'}
+                            aria-label="outlined primary button group"
+                            onClick={() => onClickCurrentPageHandler(p)}>
+            <Button>{p}</Button>
+        </ButtonGroup>
+
+    })
+    return (
+        <div className={styles.container}>
+            {usersPage.isFetching ? <Preloader/> : null}
+            {mapUsers}
+            <div>
+                {mapPages}
+            </div>
         </div>
     );
-};
+})

@@ -1,9 +1,16 @@
-import {followAC, initialStateUsersReducerType, setUsersAC, unFollowAC, usersReducer, UsersType} from './usersReducer';
+import {
+    followAC,
+    initialStateUsersReducerType,
+    setCurrentPageAC, setIsFetchingAC,
+    setTotalUsersCountAC,
+    unFollowAC,
+    UsersPageType,
+    usersReducer,
+} from './usersReducer';
 import {v1} from 'uuid';
 
 let idPlato: string
 let idNatalia: string
-
 let startState: initialStateUsersReducerType
 
 beforeEach(() => {
@@ -13,7 +20,10 @@ beforeEach(() => {
         users: [
             {
                 id: idPlato,
-                photos: '',
+                photos: {
+                    small: '',
+                    large: '',
+                },
                 photoUrl: 'https://images.mubicdn.net/images/cast_member/4189/cache-5292-1614585191/image-w856.jpg?size=240x',
                 followed: true,
                 name: 'Platon Volodin',
@@ -22,39 +32,44 @@ beforeEach(() => {
             },
             {
                 id: idNatalia,
+                photos: '',
                 photoUrl: 'https://images.mubicdn.net/images/cast_member/4189/cache-5292-1614585191/image-w856.jpg?size=240x',
                 followed: false,
-                fullName: 'Natalia Malynych',
-                status: 'I\'m pregnant',
-                country: 'Ukraine',
-                city: 'Lvov',
+                name: 'Natalia Malynych',
+                status: 'Bla bla car',
+                location: {country: 'Ukraine', city: 'Lvov'},
             },
-        ] as Array<UsersType>,
+        ] as Array<UsersPageType>,
+        pageSize: 5,
+        totalUsersCount: 20,
+        currentPage: 5,
+        isFetching: false,
     }
 })
-
 test('correct user should be followed', () => {
     const endState = usersReducer(startState, followAC(idNatalia, true))
     expect(endState.users[1].followed).toBe(true)
 })
+
 test('correct user should be unFollowed', () => {
     const endState = usersReducer(startState, unFollowAC(idPlato, false))
 
     expect(endState.users[0].followed).toBeFalsy()
 })
-test('users should be added from server', () => {
-    const endState = usersReducer(startState, setUsersAC([{
-        id: v1(),
-        photos: '',
-        photoUrl: 'https://images.mubicdn.net/images/cast_member/4189/cache-5292-1614585191/image-w856.jpg?size=240x',
-        followed: false,
-        name: 'Erik Bargesyan',
-        status: 'Bla bla car',
-        location: {country: 'Belarus', city: 'Minsk'},
-    }]))
 
-    expect(endState.users[2].name).toBe('Erik Bargesyan')
-    expect(endState.users.length).toBe(3)
-    expect(endState.users[2].location.city).toBe('Minsk')
+test('current page should be set', () => {
+    const endState = usersReducer(startState, setCurrentPageAC(1))
+    expect(endState.currentPage).toBe(1)
 })
 
+test('totalUsersCount should be set', () => {
+    const endState = usersReducer(startState, setTotalUsersCountAC(1234))
+
+    expect(endState.totalUsersCount).toBe(1234)
+})
+
+
+test('isFetching should be changed', () => {
+    const endState = usersReducer(startState, setIsFetchingAC(true))
+    expect(endState.isFetching).toBe(true)
+})
