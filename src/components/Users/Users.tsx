@@ -47,7 +47,7 @@ export const Users = memo(() => {
     }, [dispatch])
 
 
-    let pagesCount = Math.ceil(usersPage.totalUsersCount / usersPage.pageSize - 4723)
+    let pagesCount = Math.ceil(usersPage.totalUsersCount / usersPage.pageSize / 100)
     let pages = []
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
@@ -56,9 +56,10 @@ export const Users = memo(() => {
         <div key={u.id}>
                     <span>
                         <div>
-                            <NavLink to={'/profile/' + u.id}><img src={u.photos.small !== null ? u.photos.small : userPhoto}
-                                          className={styles.userPhoto}
-                                          alt="avatar"/></NavLink>
+                            <NavLink to={'/profile/' + u.id}>
+                                <img src={u.photos.small !== null ? u.photos.small : userPhoto}
+                                className={styles.userPhoto}
+                                alt="avatar"/></NavLink>
                         </div>
                         <div>{u.followed
                             ? <Button onClick={() => onClickUnFollowHandler(u.id)} variant="contained"
@@ -68,8 +69,8 @@ export const Users = memo(() => {
                          </div>
                     </span>
             <span>
-                            <div>{u.name}</div>
-                            <div>{u.status}</div>
+                <div>{u.name}</div>
+                <div>{u.status}</div>
                         </span>
             <span>
                              <div>{'u.location.country'}</div>
