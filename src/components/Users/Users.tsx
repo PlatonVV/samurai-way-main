@@ -78,11 +78,14 @@ export const Users = memo(() => {
                          </span>
         </div>)
     const mapPages = pages.map(p => {
-        return <ButtonGroup key={p} variant={usersPage.currentPage === p ? 'contained' : 'text'}
-                            aria-label="outlined primary button group"
-                            onClick={() => onClickCurrentPageHandler(p)}>
+        return <>
+            <ButtonGroup key={p} variant={usersPage.currentPage === p ? 'contained' : 'text'}
+                               aria-label="outlined primary button group"
+                               onClick={() => onClickCurrentPageHandler(p)}>
             <Button>{p}</Button>
         </ButtonGroup>
+
+        </>
 
     })
     return (
