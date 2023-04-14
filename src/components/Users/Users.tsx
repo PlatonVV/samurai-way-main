@@ -24,7 +24,7 @@ export const Users = memo(() => {
 
     useEffect(() => {
         dispatch(setIsFetchingAC(true))
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${usersPage.currentPage}&count=${usersPage.pageSize}`).then(response => {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${usersPage.currentPage}&count=${usersPage.pageSize}`, {withCredentials: true}).then(response => {
             dispatch(setUsersAC(response.data.items));
             dispatch(setIsFetchingAC(false))
             dispatch(setTotalUsersCountAC(response.data.totalCount))
@@ -33,7 +33,7 @@ export const Users = memo(() => {
     const onClickCurrentPageHandler = useCallback((currentPage: number) => {
         dispatch(setCurrentPageAC(currentPage))
         dispatch(setIsFetchingAC(true))
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${usersPage.pageSize}`).then(response => {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${usersPage.pageSize}`, {withCredentials: true}).then(response => {
             dispatch(setUsersAC(response.data.items));
             dispatch(setIsFetchingAC(false))
         })
@@ -43,6 +43,7 @@ export const Users = memo(() => {
         dispatch(followAC(userId, false))
     }, [dispatch])
     const onClickFollowHandler = useCallback((userId: string) => {
+
         dispatch(unFollowAC(userId, true))
     }, [dispatch])
 
@@ -58,13 +59,32 @@ export const Users = memo(() => {
                         <div>
                             <NavLink to={'/profile/' + u.id}>
                                 <img src={u.photos.small !== null ? u.photos.small : userPhoto}
-                                className={styles.userPhoto}
-                                alt="avatar"/></NavLink>
+                                     className={styles.userPhoto}
+                                     alt="avatar"/></NavLink>
                         </div>
                         <div>{u.followed
-                            ? <Button onClick={() => onClickUnFollowHandler(u.id)} variant="contained"
+                            ? <Button onClick={() => {
+                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,{withCredentials: true, headers: {
+                                        'API-KEY': 'f99f2a4e-ec6a-4556-b10d-38019e7780d8'
+                                    }
+                                }).then(response => {
+                                    if (response.data.resultCode === 0) {
+                                        onClickUnFollowHandler(u.id)
+                                    }
+                                })
+                            }} variant="contained"
                                       href="#contained-buttons">Unfollow</Button>
-                            : <Button onClick={() => onClickFollowHandler(u.id)} variant="contained"
+                            : <Button onClick={() =>{
+                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {withCredentials: true,
+                                    headers: {
+                                        'API-KEY': 'f99f2a4e-ec6a-4556-b10d-38019e7780d8'
+                                    }
+                                }).then(response => {
+                                    if (response.data.resultCode === 0) {
+                                        onClickFollowHandler(u.id)
+                                    }
+                                })
+                                }} variant="contained"
                                       href="#contained-buttons">Follow</Button>}
                          </div>
                     </span>
@@ -80,10 +100,10 @@ export const Users = memo(() => {
     const mapPages = pages.map(p => {
         return <>
             <ButtonGroup key={p} variant={usersPage.currentPage === p ? 'contained' : 'text'}
-                               aria-label="outlined primary button group"
-                               onClick={() => onClickCurrentPageHandler(p)}>
-            <Button>{p}</Button>
-        </ButtonGroup>
+                         aria-label="outlined primary button group"
+                         onClick={() => onClickCurrentPageHandler(p)}>
+                <Button>{p}</Button>
+            </ButtonGroup>
 
         </>
 
