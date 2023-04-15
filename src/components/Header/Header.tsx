@@ -9,10 +9,10 @@ import Button from '@mui/material/Button';
 import {NavLink} from 'react-router-dom';
 import styled from '@emotion/styled';
 import {setIsFetchingAC} from '../../reducers/usersReducer';
-import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import {initialStateAuthReducerType, setAuthUserDataAC} from '../../reducers/authReducer';
 import {AppRootStateType} from '../../redux/reduxStore';
+import {usersAPI} from '../../api/api';
 
 export const Header = () => {
     const authData = useSelector<AppRootStateType, initialStateAuthReducerType>(state => state.auth)
@@ -20,9 +20,9 @@ export const Header = () => {
 
     useEffect(() => {
         dispatch(setIsFetchingAC(true))
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {withCredentials: true}).then(response => {
-            if (response.data.resultCode === 0) {
-                let {id, email, login} = response.data.data;
+        usersAPI.auth().then(data => {
+            if (data.resultCode === 0) {
+                let {id, email, login} = data.data;
                 dispatch(setIsFetchingAC(false))
                 dispatch(setAuthUserDataAC({id, email, login, isAuth: true}));
             }
